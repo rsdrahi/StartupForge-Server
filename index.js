@@ -1,7 +1,11 @@
 const express = require('express');
 const app = express()
+const cors = require('cors');
 const port = 5000
 require('dotenv').config();
+
+app.use(cors())
+app.use(express.json())
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 app.get('/', (req, res) => {
@@ -26,7 +30,14 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
-    
+    const database = client.db("startupforge");
+    const startupCollection = database.collection("startupCollection");
+
+    app.post('/api/myStartup', async (req, res) => {
+      const startUp = req.body
+      const result = await startupCollection.insertOne(startUp);
+      res.send(result);
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
