@@ -42,6 +42,11 @@ async function run() {
       res.send(result);
     })
 
+    app.get('/api/myStartup', async (req, res) => {
+      const result = await startupCollection.find().toArray();
+      res.send(result);
+    })
+
     app.post('/api/myStartup', async (req, res) => {
       const startUp = req.body
       const result = await startupCollection.insertOne(startUp);
