@@ -68,6 +68,11 @@ async function run() {
         const result = await opportunitiesCollection.find({ startupId }).toArray();
         console.log(result, "result");
         res.send(result);
+      })
+    
+    app.get('/api/browseOpportunities', async (req, res) => {
+      const result = await opportunitiesCollection.find().toArray();
+      res.send(result)
     })
 
     app.patch('/api/addOpportunity/:id', async (req, res) => {
