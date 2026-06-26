@@ -32,13 +32,14 @@ async function run() {
 
     const database = client.db("startupforge");
     const startupCollection = database.collection("startupCollection");
-    const opportunitiesCollection = database.collection("opportunities")
+    const opportunitiesCollection = database.collection("opportunities");
+    const applicationsCollection = database.collection("applications");
 
 
     // startup
     app.get('/api/myStartup/:email', async (req, res) => {
       const { email } = req.params;
-      const result = await startupCollection.findOne({ email })
+      const result = await startupCollection.findOne({founderEmail: email})
       res.send(result);
     })
 
@@ -61,10 +62,10 @@ async function run() {
       res.send(result);
     })
 
-      app.get('/api/addOpportunity/:founderId', async (req, res) => {
-        const { founderId } = req.params;
-        // console.log(founderId, "Received Id");
-        const result = await opportunitiesCollection.find({ founderId }).toArray();
+      app.get('/api/addOpportunity/:startupId', async (req, res) => {
+        const { startupId } = req.params;
+        console.log(startupId, "Received Id");
+        const result = await opportunitiesCollection.find({ startupId }).toArray();
         console.log(result, "result");
         res.send(result);
     })
@@ -87,6 +88,18 @@ async function run() {
       const { id } = req.params;
       const result = await opportunitiesCollection.deleteOne({ _id: new ObjectId(id) })
       res.send(result)
+    })
+
+    // applications
+
+    app.post('/api/applications', async (req, res) => {
+      const data = req.body;
+      const result = await applicationsCollection.insertOne({
+        ...data,
+        status: "pending",
+        createdAt: new Date(),
+      })
+      res.send(result);
     })
 
     // app.patch('/api/myStartup/:id', async (req, res) => {
