@@ -34,6 +34,7 @@ async function run() {
     const startupCollection = database.collection("startupCollection");
     const opportunitiesCollection = database.collection("opportunities");
     const applicationsCollection = database.collection("applications");
+    const collaboratorsCollection = database.collection("collaborator")
 
 
     // startup
@@ -110,6 +111,14 @@ async function run() {
     app.get('/api/applications/users/:applicantId', async (req, res) => {
       const { applicantId } = req.params;
       const result = await applicationsCollection.find({ applicantId }).toArray();
+      res.send(result);
+    })
+
+    // collaborator
+
+    app.post('/api/collaboratorProfile', async (req, res) => {
+      const data = req.body;
+      const result = await collaboratorsCollection.insertOne(data);
       res.send(result);
     })
 
