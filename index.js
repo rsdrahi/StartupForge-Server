@@ -118,7 +118,21 @@ async function run() {
       const { startupId } = req.params;
       const result = await applicationsCollection.find({ startupId }).toArray();
       res.send(result);
-   })
+    })
+    
+    app.patch("/api/applications/:id", async (req, res) => {
+      const { id } = req.params;
+      const { status } = req.body;
+      const result = await applicationsCollection.updateOne(
+        { _id: new ObjectId(id) },
+        {
+          $set: {
+            status,
+          }
+        }
+      );
+      res.send(result);
+    })
 
     // collaborator
 
