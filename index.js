@@ -107,6 +107,12 @@ async function run() {
       res.send(result);
     })
 
+    app.get('/api/applications/users/:applicantId', async (req, res) => {
+      const { applicantId } = req.params;
+      const result = await applicationsCollection.find({ applicantId }).toArray();
+      res.send(result);
+    })
+
     // app.patch('/api/myStartup/:id', async (req, res) => {
     //   const startUp = req.body
     //   const result = await startupCollection.updateOne({
