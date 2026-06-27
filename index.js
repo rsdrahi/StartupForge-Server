@@ -114,22 +114,31 @@ async function run() {
       res.send(result);
     })
 
+    app.get('/api/applications/startup/:startupId', async (req, res) => {
+      const { startupId } = req.params;
+      const result = await applicationsCollection.find({ startupId }).toArray();
+      res.send(result);
+   })
+
     // collaborator
 
     app.post('/api/collaboratorProfile', async (req, res) => {
       const data = req.body;
       const result = await collaboratorsCollection.insertOne(data);
+      console.log(result, "Post Result");
       res.send(result);
     })
 
     app.get('/api/collaboratorProfile/:email', async (req, res) => {
       const { email } = req.params;
       const result = await collaboratorsCollection.findOne({ email });
-      res.send(result);
+      console.log(result, "result");
+      res.json(result);
     })
 
     app.patch('/api/collaboratorProfile/:email', async (req, res) => {
       const { email } = req.params;
+      console.log(email, "Email");
       const updateData = req.body;
       const result = await collaboratorsCollection.updateOne(
         { email },
@@ -139,8 +148,10 @@ async function run() {
           }
         }
       );
+      console.log(result, "Result");
       res.send(result);
     })
+
 
     // app.patch('/api/myStartup/:id', async (req, res) => {
     //   const startUp = req.body
