@@ -128,6 +128,20 @@ async function run() {
       res.send(result);
     })
 
+    app.patch('/api/collaboratorProfile/:email', async (req, res) => {
+      const { email } = req.params;
+      const updateData = req.body;
+      const result = await collaboratorsCollection.updateOne(
+        { email },
+        {
+          $set: {
+            ...updateData,
+          }
+        }
+      );
+      res.send(result);
+    })
+
     // app.patch('/api/myStartup/:id', async (req, res) => {
     //   const startUp = req.body
     //   const result = await startupCollection.updateOne({
