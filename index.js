@@ -198,6 +198,59 @@ async function run() {
       res.send(result);
     })
 
+    app.patch("/api/users/default-status/:email", async (req, res) => {
+      const { email } = req.params;
+      const result = await userCollection.updateOne(
+        { email },
+        {
+          $set: {
+            status: "active"
+          },
+        }
+      );
+      res.send(result);
+    })
+
+    app.patch('/api/admin/users/:id', async (req, res) => {
+      const { id } = req.params;
+      const { status } = req.body;
+      const result = await userCollection.updateOne(
+        { _id: new ObjectId(id) },
+        {
+          $set: {
+            status,
+          },
+        }
+      );
+      res.send(result);
+    })
+
+    app.get("/api/admin/startups", async (req, res) => {
+      const result = await startupCollection.find().toArray();
+      res.send(result);
+    })
+
+    app.patch("/api/admin/startups/:id", async (req, res) => {
+      const { id } = req.params;
+      const result = await startupCollection.updateOne.(
+        { _id: new ObjectId(id) },
+        {
+          $set: {
+            status: "approved",
+          },
+        }
+      );
+      res.send(result);
+    })
+
+    app.delete("/api/admin/startups/:id", async (req, res) => {
+      const { id } = req.params;
+      const result = await startupCollection.deleteOne(
+        { _id: new ObjectId(id) },
+      );
+      res.send(result);
+    })
+
     // app.patch('/api/myStartup/:id', async (req, res) => {
     //   const startUp = req.body
     //   const result = await startupCollection.updateOne({
