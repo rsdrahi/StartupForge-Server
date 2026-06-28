@@ -71,6 +71,13 @@ async function run() {
         res.send(result);
       })
     
+    
+    app.get("/api/opportunities/count/:startupId", async (req, res) => {
+      const { startupId } = req.params;
+      const result = await opportunitiesCollection.countDocuments({ startupId });
+      res.send(result)
+    })
+    
     app.get('/api/browseOpportunities', async (req, res) => {
       const result = await opportunitiesCollection.find().toArray();
       res.send(result)
