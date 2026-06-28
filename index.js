@@ -191,6 +191,13 @@ async function run() {
       res.send(result);
     })
 
+    // get all users
+
+    app.get('/api/admin/users', async (req, res) => {
+      const result = await userCollection.find().toArray();
+      res.send(result);
+    })
+
     // app.patch('/api/myStartup/:id', async (req, res) => {
     //   const startUp = req.body
     //   const result = await startupCollection.updateOne({
