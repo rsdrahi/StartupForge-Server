@@ -34,7 +34,8 @@ async function run() {
     const startupCollection = database.collection("startupCollection");
     const opportunitiesCollection = database.collection("opportunities");
     const applicationsCollection = database.collection("applications");
-    const collaboratorsCollection = database.collection("collaborator")
+    const collaboratorsCollection = database.collection("collaborator");
+    const userCollection = database.collection("user");
 
 
     // startup
@@ -173,6 +174,22 @@ async function run() {
       res.send(result);
     })
 
+    // admin
+
+    app.get('/api/admin/users/count', async (req, res) => {
+      const result = await userCollection.countDocuments();
+      res.send(result);
+    })
+
+    app.get('/api/admin/startups/count', async (req, res) => {
+      const result = await startupCollection.countDocuments();
+      res.send(result);
+    })
+
+    app.get('/api/admin/opportunities/count', async (req, res) => {
+      const result = await opportunitiesCollection.countDocuments();
+      res.send(result);
+    })
 
     // app.patch('/api/myStartup/:id', async (req, res) => {
     //   const startUp = req.body
